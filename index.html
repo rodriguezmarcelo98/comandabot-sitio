@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ComandaBot · Los pedidos de WhatsApp, directo a tu cocina</title>
+  <meta name="description" content="Bot de WhatsApp que toma los pedidos de tu local y los deja listos en tu cocina, con el total bien calculado.">
+  <meta name="theme-color" content="#f4b400">
+  <meta property="og:title" content="ComandaBot: los pedidos de WhatsApp, directo a tu cocina">
+  <meta property="og:description" content="Un bot que atiende tu WhatsApp, toma el pedido completo y lo deja listo en una pantalla para tu cocina.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://comandabot.cl/"><link rel="canonical" href="https://comandabot.cl/">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23f4b400'/%3E%3Cpath d='M8 7h16a2 2 0 0 1 2 2v13l-2.5 2-2.5-2-2.5 2-2.5-2-2.5 2-2.5-2-2 2V9a2 2 0 0 1 2-2z' fill='%231f2a44'/%3E%3Cpath d='M11 13h10M11 17h7' stroke='%23f4b400' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="preload" href="/static/sitio/fuentes/bricolage.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/static/sitio/sitio.css">
+</head>
+<body>
+  <a class="visualmente-oculto" href="#contenido">Saltar al contenido</a>
+
+  <header class="encabezado ">
+    <div class="contenedor">
+      <a class="marca" href="/" aria-label="ComandaBot, inicio">
+        <svg viewBox="0 0 32 32" aria-hidden="true" fill="none"><path d="M7 5h18a2 2 0 0 1 2 2v17l-2.5 2.2-2.5-2.2-2.5 2.2-2.5-2.2-2.5 2.2-2.5-2.2-2.5 2.2L5 24V7a2 2 0 0 1 2-2z" fill="currentColor"/><path d="M10 12h12M10 16.5h8" stroke="#f4b400" stroke-width="2.2" stroke-linecap="round"/></svg>
+
+        ComandaBot
+      </a>
+      <nav class="navegacion" aria-label="Principal">
+        <a class="ancla" href="/#como-funciona">Cómo funciona</a>
+        <a class="ancla" href="/#para-quien">Para quién</a>
+        <a class="ancla" href="/#preguntas">Preguntas</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido">
+<section class="portada" aria-labelledby="titulo-portada">
+  <div class="contenedor">
+    <div>
+      <h1 id="titulo-portada">Los pedidos de WhatsApp llegan solos a tu cocina.</h1>
+      <p class="bajada">ComandaBot atiende el WhatsApp de tu local: responde, toma el pedido completo y te lo deja listo en una pantalla, con el total bien calculado. Tú te dedicas a cocinar.</p>
+      <div class="acciones">
+        
+        <a class="boton boton-whatsapp" href="https://wa.me/56959214978?text=Hola%2C%20quiero%20saber%20m%C3%A1s%20de%20ComandaBot%20para%20mi%20local." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.15h-.01a8.23 8.23 0 0 1-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.23 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.78.97-.15.16-.29.18-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.42.08-.16.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.06-.1-.23-.16-.48-.28z"/></svg>
+ Escríbenos por WhatsApp</a>
+        
+        <a class="boton boton-borde" href="#como-funciona">Ver cómo funciona</a>
+      </div>
+      <p class="letra-chica">Te mostramos el bot funcionando con el menú de tu local, sin compromiso.</p>
+    </div>
+
+    <div class="escena animar" id="escena" aria-label="Ejemplo: un cliente pide por WhatsApp y el pedido se imprime en la cocina">
+      <div class="chat" role="img" aria-label="Conversación de ejemplo por WhatsApp">
+        <div class="chat-cabecera">
+          <span class="avatar" aria-hidden="true">LP</span>
+          <span>Fuente de Soda La Picá<small>en línea</small></span>
+        </div>
+        <p class="burbuja cliente">hola! me das 2 italianos sin mayo, un luco y una bebida de 1,5 pa retirar? soy Ana<time>13:40</time></p>
+        <p class="burbuja bot">¡Hola Ana! Este es tu pedido:<br>2 Completo Italiano (sin mayo) $7.000<br>1 Churrasco Luco $6.900<br>1 Bebida 1,5 L $2.500<br><b>Total: $16.400</b> · ¿Confirmas?<time>13:40</time></p>
+        <p class="burbuja cliente">sí, te transfiero<time>13:41</time></p>
+        <p class="burbuja bot">✅ Pedido #128 registrado. Te envío los datos para transferir 👇<time>13:41</time></p>
+      </div>
+      <div class="impresora" aria-label="Comanda impresa en la cocina">
+        <span class="campana">🔔 Pedido nuevo</span>
+        <div class="papel-recorte">
+<pre class="comanda">     FUENTE DE SODA LA PICÁ
+          Pedido #128
+        08/11/2026 13:42
+--------------------------------
+Cliente: Ana
+Entrega: Retiro en local
+Pago: Transferencia
+--------------------------------
+2 Completo Italiano       $7.000
+  <strong>&gt; sin mayo</strong>
+1 Churrasco Luco          $6.900
+1 Bebida 1,5 L            $2.500
+--------------------------------
+TOTAL                    $16.400</pre>
+        </div>
+      </div>
+      <button type="button" class="repetir" id="repetir">Ver de nuevo</button>
+    </div>
+  </div>
+</section>
+
+<section class="seccion" id="como-funciona" aria-labelledby="titulo-como">
+  <div class="contenedor">
+    <div class="encabezado-seccion">
+      <h2 id="titulo-como">Así llega un pedido</h2>
+      <p class="bajada">Tus clientes siguen pidiendo por WhatsApp como siempre. La diferencia es que nadie tiene que estar pegado al celular.</p>
+    </div>
+    <ol class="pasos">
+      <li>
+        <h3>Tu cliente escribe</h3>
+        <p>Por texto, nota de voz o con una foto. Si saluda, el bot le manda tu menú altiro.</p>
+      </li>
+      <li>
+        <h3>El bot arma el pedido</h3>
+        <p>Pregunta lo que falta: retiro o delivery, dirección, medio de pago. Una cosa a la vez.</p>
+      </li>
+      <li>
+        <h3>El cliente confirma</h3>
+        <p>Recibe un resumen con el total calculado desde tu menú y responde que sí.</p>
+      </li>
+      <li>
+        <h3>Suena en tu cocina</h3>
+        <p>El pedido aparece en tu pantalla con una campana, listo para preparar e imprimir.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="seccion seccion-azulejo" aria-labelledby="titulo-panel">
+  <div class="contenedor panel-demo">
+    <div>
+      <h2 id="titulo-panel">Tu cocina, en una sola pantalla</h2>
+      <p class="bajada">El panel funciona en un tablet, un computador o el celular. Sin instalar nada.</p>
+      <ul class="puntos">
+        <li style="--punto:#fbbf24">Los pedidos se ordenan por llegada, separados en retiro y delivery.</li>
+        <li style="--punto:#f97316">El borde cambia de color mientras el pedido espera, para que nada se quede atrás.</li>
+        <li style="--punto:#059669">Un toque para marcarlo como entregado. Si te equivocas, lo deshaces.</li>
+        <li style="--punto:#1f2a44">Historial con lo vendido por día, semana o mes.</li>
+      </ul>
+    </div>
+    <div class="tablero" aria-hidden="true">
+      <div class="tablero-barra">Pedidos activos <span>13:42:08</span></div>
+      <div class="columnas">
+        <div class="columna">
+          <h3>🏪 Para retirar</h3>
+          <article class="tarjeta">
+            <header><span class="numero">#128</span><span class="espera">recién</span></header>
+            <p class="cliente">Ana</p>
+            <span class="etiqueta">🏦 Transferencia ✅</span>
+            <ul>
+              <li><b>2×</b> Completo Italiano</li>
+              <li class="nota">→ sin mayo</li>
+              <li><b>1×</b> Churrasco Luco</li>
+              <li><b>1×</b> Bebida 1,5 L</li>
+            </ul>
+            <p class="listo">✅ Retirado</p>
+          </article>
+        </div>
+        <div class="columna">
+          <h3>🛵 Delivery</h3>
+          <article class="tarjeta" style="--borde:#f97316;--chip:#f97316;--chip-texto:#fff">
+            <header><span class="numero">#126</span><span class="espera">hace 17 min</span></header>
+            <p class="cliente">Jorge</p>
+            <span class="etiqueta" style="background:#e0f2fe;color:#0c4a6e">Av. Matta 1020, depto 34</span>
+            <ul>
+              <li><b>1×</b> Barros Luco</li>
+              <li><b>2×</b> Papas fritas grandes</li>
+            </ul>
+            <p class="listo">🛵 Enviado</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="seccion" aria-labelledby="titulo-resuelve">
+  <div class="contenedor">
+    <div class="encabezado-seccion">
+      <h2 id="titulo-resuelve">Lo que el bot hace por ti</h2>
+    </div>
+    <dl class="resuelve">
+      <div>
+        <dt>Entiende audios y fotos</dt>
+        <dd>Si el cliente manda una nota de voz o la foto de un pedido escrito a mano, el bot lo entiende igual.</dd>
+      </div>
+      <div>
+        <dt>Revisa las transferencias</dt>
+        <dd>Lee el monto del comprobante que te mandan y te avisa si no coincide con el total del pedido.</dd>
+      </div>
+      <div>
+        <dt>Manda tu menú</dt>
+        <dd>Con las fotos de tu carta o como lista con precios, apenas alguien saluda.</dd>
+      </div>
+      <div>
+        <dt>Respeta tu horario</dt>
+        <dd>Si estás cerrado, lo dice. Si trabajas por encargo, pide la fecha con la anticipación que tú definas.</dd>
+      </div>
+      <div>
+        <dt>Te pasa la conversación cuando hace falta</dt>
+        <dd>Ante un reclamo o una pregunta que no sabe responder, te avisa con un sonido distinto y tú contestas desde el panel.</dd>
+      </div>
+      <div>
+        <dt>Imprime la comanda</dt>
+        <dd>Ticket para impresora térmica, con las notas del cliente bien visibles para quien cocina.</dd>
+      </div>
+      <div>
+        <dt>Arma tu menú desde una foto</dt>
+        <dd>Le sacas una foto a tu carta y el sistema crea los productos con sus precios. Tú revisas y confirmas.</dd>
+      </div>
+      <div>
+        <dt>Pide abono en los encargos</dt>
+        <dd>Para tortas y pedidos grandes, cobra un abono por transferencia y el saldo al retirar.</dd>
+      </div>
+    </dl>
+  </div>
+</section>
+
+<section class="seccion confianza" aria-labelledby="titulo-confianza">
+  <div class="contenedor">
+    <h2 id="titulo-confianza">La IA entiende. Los precios los pone tu menú.</h2>
+    <div>
+      <p>El bot nunca inventa precios, totales ni datos bancarios: todo sale de lo que tú configuras en el panel.</p>
+      <p>Y si no sabe algo, no adivina. Te pasa la conversación a ti.</p>
+    </div>
+  </div>
+</section>
+
+<section class="seccion seccion-azulejo" id="para-quien" aria-labelledby="titulo-quien">
+  <div class="contenedor">
+    <div class="encabezado-seccion">
+      <h2 id="titulo-quien">Hecho para locales chicos</h2>
+      <p class="bajada">Para el que atiende, cocina y cobra al mismo tiempo, y no puede estar respondiendo WhatsApp.</p>
+    </div>
+    <ul class="locales">
+      <li>🌭 Fuentes de soda</li>
+      <li>🍕 Pizzerías</li>
+      <li>🍣 Sushi</li>
+      <li>🎂 Pastelerías y tortas</li>
+      <li>🥪 Sangucherías</li>
+      <li>🍲 Comida casera</li>
+    </ul>
+    <div class="modos">
+      <div class="modo">
+        <h3>Al momento</h3>
+        <p>Para comida rápida: el pedido entra, suena en la cocina y se prepara de inmediato. El bot informa los tiempos de retiro y delivery que tú definas.</p>
+      </div>
+      <div class="modo">
+        <h3>Por encargo</h3>
+        <p>Para tortas y pedidos con fecha: el bot pide el día y la hora de retiro, revisa que haya anticipación suficiente y cobra el abono.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="seccion" id="preguntas" aria-labelledby="titulo-preguntas">
+  <div class="contenedor">
+    <div class="encabezado-seccion">
+      <h2 id="titulo-preguntas">Preguntas frecuentes</h2>
+    </div>
+    <div class="preguntas">
+      <details>
+        <summary>¿Necesito otro número de WhatsApp?</summary>
+        <p>Sí. Tu local usa un número dedicado, conectado a la plataforma oficial de WhatsApp Business de Meta. Tu WhatsApp personal no se toca.</p>
+      </details>
+      <details>
+        <summary>¿Qué pasa si el bot no entiende algo?</summary>
+        <p>No inventa. Le dice al cliente que lo consulta con el local y a ti te llega un aviso en el panel para que respondas tú, desde el mismo chat.</p>
+      </details>
+      <details>
+        <summary>¿Puedo apagar el bot cuando quiera?</summary>
+        <p>Sí, con un interruptor en la configuración. Mientras está apagado, los mensajes te llegan al panel para que los respondas tú.</p>
+      </details>
+      <details>
+        <summary>¿Tengo que instalar algo?</summary>
+        <p>No. El panel se abre en el navegador de un tablet, computador o celular. Si quieres imprimir comandas, sirve una impresora térmica de 58 u 80 mm conectada a un computador. En tablets Android, consúltanos por modelos compatibles.</p>
+      </details>
+      <details>
+        <summary>¿Puedo cambiar cómo habla el bot?</summary>
+        <p>Sí. Tú defines su personalidad y las reglas de tu local: zonas de reparto, promociones, lo que no vendes. Los precios y el menú se editan en el panel.</p>
+      </details>
+      <details>
+        <summary>¿Cuánto cuesta?</summary>
+        <p>Depende de tu local y de cuántos pedidos recibes. Escríbenos por WhatsApp y te contamos los planes.</p>
+      </details>
+      <details>
+        <summary>¿Qué pasa con los datos de mis clientes?</summary>
+        <p>Se usan solo para atender sus pedidos en tu local y no se venden ni se comparten con otros locales. Está todo explicado en la <a href="/privacidad/">política de privacidad</a>.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="seccion cierre" aria-labelledby="titulo-cierre">
+  <div class="contenedor">
+    <div>
+      <h2 id="titulo-cierre">¿Lo probamos con tu menú?</h2>
+      <p>Mándanos tu carta y te mostramos el bot respondiendo como si fuera tu local.</p>
+    </div>
+    
+    <a class="boton boton-whatsapp" href="https://wa.me/56959214978?text=Hola%2C%20quiero%20saber%20m%C3%A1s%20de%20ComandaBot%20para%20mi%20local." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.15h-.01a8.23 8.23 0 0 1-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.23 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.78.97-.15.16-.29.18-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.42.08-.16.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.06-.1-.23-.16-.48-.28z"/></svg>
+ Escríbenos por WhatsApp</a>
+    
+  </div>
+</section>
+</main>
+
+  <footer class="pie">
+    <div class="contenedor">
+      <div>
+        <a class="marca" href="/"><svg viewBox="0 0 32 32" aria-hidden="true" fill="none"><path d="M7 5h18a2 2 0 0 1 2 2v17l-2.5 2.2-2.5-2.2-2.5 2.2-2.5-2.2-2.5 2.2-2.5-2.2-2.5 2.2L5 24V7a2 2 0 0 1 2-2z" fill="currentColor"/><path d="M10 12h12M10 16.5h8" stroke="#f4b400" stroke-width="2.2" stroke-linecap="round"/></svg>
+ ComandaBot</a>
+        <address>
+          MARCELO ALEJANDRO RODRIGUEZ ARAYA<br>
+          RUT 19.951.904-2<br>
+          
+          <a href="mailto:rodriguez.marcelo3a@gmail.com">rodriguez.marcelo3a@gmail.com</a>
+          <br>WhatsApp <a href="https://wa.me/56959214978?text=Hola%2C%20quiero%20saber%20m%C3%A1s%20de%20ComandaBot%20para%20mi%20local.">+56959214978</a>
+        </address>
+      </div>
+      <nav aria-label="Legal">
+        <ul>
+          <li><a href="/privacidad/">Política de privacidad</a></li>
+          <li><a href="/terminos/">Términos del servicio</a></li>
+          <li><a href="/cookies/">Política de cookies</a></li>
+          <li><a href="/privacidad/#eliminar-datos">Eliminar mis datos</a></li>
+        </ul>
+      </nav>
+      <p class="derechos">© 2026 ComandaBot. Hecho en Chile para locales de comida.</p>
+    </div>
+  </footer>
+
+  
+  <a class="whatsapp-flotante" href="https://wa.me/56959214978?text=Hola%2C%20quiero%20saber%20m%C3%A1s%20de%20ComandaBot%20para%20mi%20local." target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
+    <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.15h-.01a8.23 8.23 0 0 1-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.23 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.78.97-.15.16-.29.18-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.42.08-.16.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.06-.1-.23-.16-.48-.28z"/></svg>
+
+  </a>
+  
+  
+<script>
+  // Repite la secuencia de la portada (reinicia las animaciones CSS)
+  document.getElementById("repetir")?.addEventListener("click", () => {
+    const escena = document.getElementById("escena");
+    escena.classList.remove("animar");
+    void escena.offsetWidth;
+    escena.classList.add("animar");
+  });
+</script>
+
+</body>
+</html>

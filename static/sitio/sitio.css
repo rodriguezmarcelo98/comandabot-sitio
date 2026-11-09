@@ -1,0 +1,297 @@
+/* ComandaBot · sitio público
+   Idea: el pedido de WhatsApp se convierte en la comanda de cocina.
+   Paleta: tinta de lápiz pasta, mostaza de letrero de fuente de soda, papel de ticket. */
+
+@font-face { font-family: "Bricolage"; src: url("fuentes/bricolage.woff2") format("woff2"); font-weight: 200 800; font-display: swap; }
+@font-face { font-family: "Atkinson"; src: url("fuentes/atkinson-400.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Atkinson"; src: url("fuentes/atkinson-700.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "Ticket"; src: url("fuentes/plexmono-500.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+
+:root {
+  --tinta: #1f2a44;
+  --tinta-suave: #4a5672;
+  --mostaza: #f4b400;
+  --mostaza-clara: #ffe08a;
+  --papel: #ffffff;
+  --azulejo: #e8eef6;
+  --tomate: #e0452b;
+  --whatsapp: #25d366;
+  --whatsapp-oscuro: #128c4b;
+
+  --display: "Bricolage", "Arial Narrow", system-ui, sans-serif;
+  --texto: "Atkinson", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --ticket: "Ticket", ui-monospace, "Courier New", monospace;
+
+  --ancho: 72rem;
+  --margen: clamp(1.25rem, 4vw, 2.5rem);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+body {
+  margin: 0;
+  font-family: var(--texto);
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: var(--tinta);
+  background: var(--papel);
+  -webkit-font-smoothing: antialiased;
+}
+img, svg { display: block; max-width: 100%; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--tinta); outline-offset: 3px; border-radius: 4px; }
+.contenedor { width: min(100% - 2 * var(--margen), var(--ancho)); margin-inline: auto; }
+.visualmente-oculto { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Titulares: grotesca con aire de letrero, apretada y grande */
+h1, h2, h3 { font-family: var(--display); line-height: 1.02; letter-spacing: -0.02em; margin: 0; text-wrap: balance; }
+h1 { font-size: clamp(2.6rem, 6.4vw, 5.25rem); font-weight: 800; font-variation-settings: "opsz" 96; }
+h2 { font-size: clamp(2rem, 4.2vw, 3.25rem); font-weight: 800; font-variation-settings: "opsz" 72; }
+h3 { font-size: 1.35rem; font-weight: 700; letter-spacing: -0.01em; line-height: 1.2; }
+p { margin: 0; }
+.bajada { font-size: clamp(1.15rem, 1.6vw, 1.35rem); max-width: 34em; color: var(--tinta-suave); }
+
+/* Botones */
+.boton {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem;
+  min-height: 3.5rem; padding: 0 1.6rem;
+  font: 700 1.1rem/1 var(--texto); text-decoration: none;
+  border-radius: 999px; border: 2px solid transparent; cursor: pointer;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+.boton:active { transform: scale(0.97); }
+.boton-whatsapp { background: var(--whatsapp-oscuro); color: #fff; }
+.boton-whatsapp:hover { background: #0e7a40; }
+.boton-whatsapp svg { width: 1.4rem; height: 1.4rem; }
+.boton-borde { border-color: var(--tinta); color: var(--tinta); background: transparent; }
+.boton-borde:hover { background: var(--tinta); color: #fff; }
+
+/* Encabezado */
+.encabezado { position: sticky; top: 0; z-index: 20; background: var(--mostaza); }
+.encabezado .contenedor { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 4.5rem; }
+.marca { display: inline-flex; align-items: center; gap: 0.55rem; font: 800 1.5rem/1 var(--display); letter-spacing: -0.03em; text-decoration: none; }
+.marca svg { width: 2rem; height: 2rem; flex-shrink: 0; }
+.navegacion { display: flex; align-items: center; gap: 1.75rem; font-weight: 700; }
+.navegacion a { text-decoration: none; }
+.navegacion a:hover { text-decoration: underline; text-underline-offset: 0.25em; }
+.navegacion .ingresar { white-space: nowrap; padding: 0.55rem 1.1rem; border-radius: 999px; border: 2px solid var(--tinta); }
+.navegacion .ingresar:hover { background: var(--tinta); color: var(--mostaza); text-decoration: none; }
+@media (max-width: 52rem) { .navegacion .ancla { display: none; } }
+@media (max-width: 26rem) { .navegacion .al-panel { display: none; } .marca { font-size: 1.3rem; } }
+.encabezado-simple { background: var(--papel); border-bottom: 1px solid var(--azulejo); }
+
+/* ---------- Portada: el chat se convierte en comanda ---------- */
+.portada { background: var(--mostaza); padding: clamp(2.5rem, 6vw, 5rem) 0 clamp(3.5rem, 8vw, 6.5rem); overflow: hidden; }
+.portada .contenedor { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: clamp(2rem, 5vw, 4.5rem); align-items: center; }
+.portada h1 { max-width: 11ch; }
+.portada .bajada { color: var(--tinta); margin-top: 1.5rem; }
+.portada .acciones { display: flex; flex-wrap: wrap; gap: 0.85rem; margin-top: 2.25rem; }
+.portada .letra-chica { margin-top: 1.1rem; font-size: 0.95rem; }
+@media (max-width: 60rem) {
+  .portada .contenedor { grid-template-columns: 1fr; }
+  .portada h1 { max-width: 14ch; }
+}
+
+.escena { position: relative; display: grid; grid-template-columns: 1fr; justify-items: center; }
+.chat {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; /* como WhatsApp, y sin el cero tachado de Atkinson */
+  width: min(100%, 25rem);
+  background: rgba(255, 255, 255, 0.5);
+  border: 2px solid rgba(31, 42, 68, 0.12);
+  border-radius: 1.75rem;
+  padding: 1rem 1rem 1.25rem;
+  display: flex; flex-direction: column; gap: 0.55rem;
+}
+.chat-cabecera { display: flex; align-items: center; gap: 0.6rem; padding: 0.2rem 0.3rem 0.6rem; border-bottom: 1px solid rgba(31, 42, 68, 0.12); font-size: 0.95rem; }
+.chat-cabecera .avatar { width: 2.2rem; height: 2.2rem; border-radius: 50%; background: var(--tinta); color: var(--mostaza); display: grid; place-items: center; font: 800 1rem var(--display); }
+.chat-cabecera small { display: block; color: var(--tinta-suave); font-size: 0.8rem; }
+.burbuja { max-width: 86%; padding: 0.55rem 0.8rem 0.4rem; border-radius: 1rem; font-size: 0.95rem; line-height: 1.4; box-shadow: 0 1px 0 rgba(31, 42, 68, 0.12); }
+.burbuja time { display: block; text-align: right; font-size: 0.7rem; color: var(--tinta-suave); margin-top: 0.15rem; }
+.burbuja.cliente { align-self: flex-end; background: #d9fdd3; border-bottom-right-radius: 0.3rem; }
+.burbuja.bot { align-self: flex-start; background: var(--papel); border-bottom-left-radius: 0.3rem; }
+.burbuja.bot b { font-weight: 700; }
+
+/* La comanda: papel térmico que sale de la "impresora" */
+.impresora { width: min(100%, 19rem); margin-top: -0.5rem; position: relative; z-index: 2; }
+.impresora::before { /* ranura */
+  content: ""; display: block; height: 0.9rem; border-radius: 0.6rem; background: var(--tinta);
+  box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.35);
+}
+.papel-recorte { overflow: hidden; margin: -0.35rem 0.8rem 0; padding-bottom: 1.25rem; }
+.comanda {
+  --diente: 0.6rem;
+  background: var(--papel);
+  font: 500 0.78rem/1.5 var(--ticket);
+  color: #222;
+  padding: 1rem 1rem 1.4rem;
+  white-space: pre;
+  box-shadow: 0 10px 18px -10px rgba(31, 42, 68, 0.45);
+  /* borde inferior cortado en zigzag, como el ticket arrancado */
+  -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / calc(2 * var(--diente)) 100%;
+          mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / calc(2 * var(--diente)) 100%;
+  transform-origin: top center;
+}
+.comanda strong { font-weight: 500; background: var(--mostaza-clara); }
+.campana {
+  position: absolute; z-index: 3; top: -1.2rem; right: -0.6rem;
+  background: var(--tomate); color: #fff; font: 700 0.85rem/1 var(--texto);
+  padding: 0.5rem 0.8rem; border-radius: 999px; box-shadow: 0 6px 14px -6px rgba(224, 69, 43, 0.8);
+}
+
+/* Secuencia de carga (una sola, orquestada): mensajes -> confirmación -> se imprime la comanda */
+@media (prefers-reduced-motion: no-preference) {
+  .animar .burbuja { opacity: 0; transform: translateY(0.5rem) scale(0.98); animation: aparecer 0.35s ease-out forwards; }
+  .animar .burbuja:nth-of-type(1) { animation-delay: 0.3s; }
+  .animar .burbuja:nth-of-type(2) { animation-delay: 1.3s; }
+  .animar .burbuja:nth-of-type(3) { animation-delay: 2.5s; }
+  .animar .burbuja:nth-of-type(4) { animation-delay: 3.2s; }
+  .animar .comanda { transform: translateY(-101%); animation: imprimir 1.6s steps(14, end) 3.8s forwards; }
+  .animar .campana { opacity: 0; transform: scale(0.6); animation: sonar 0.5s cubic-bezier(.3, 1.6, .5, 1) 5.4s forwards; }
+}
+@keyframes aparecer { to { opacity: 1; transform: none; } }
+@keyframes imprimir { to { transform: translateY(0); } }
+@keyframes sonar { to { opacity: 1; transform: none; } }
+.repetir {
+  margin-top: 0.25rem; background: none; border: 0; padding: 0.4rem 0.6rem;
+  font: 700 0.9rem var(--texto); color: var(--tinta); text-decoration: underline; text-underline-offset: 0.2em; cursor: pointer;
+}
+@media (prefers-reduced-motion: reduce) { .repetir { display: none; } }
+
+/* ---------- Secciones ---------- */
+.seccion { padding: clamp(4rem, 9vw, 7rem) 0; }
+.seccion-azulejo { background: var(--azulejo); }
+.seccion .encabezado-seccion { max-width: 40rem; margin-bottom: clamp(2.5rem, 5vw, 3.75rem); }
+.seccion .encabezado-seccion .bajada { margin-top: 1rem; }
+
+/* Cómo funciona: es una secuencia real, por eso va numerada */
+.pasos { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; counter-reset: paso; }
+.pasos li { counter-increment: paso; position: relative; padding-top: 4.25rem; }
+.pasos li::before {
+  content: counter(paso);
+  position: absolute; top: 0; left: 0;
+  width: 3.1rem; height: 3.1rem; border-radius: 50%;
+  display: grid; place-items: center;
+  font: 800 1.5rem/1 var(--display); color: var(--tinta); background: var(--mostaza);
+}
+.pasos li:not(:last-child)::after { /* línea que une los pasos */
+  content: ""; position: absolute; top: 1.55rem; left: 3.6rem; right: -1.5rem; height: 2px;
+  background: repeating-linear-gradient(90deg, var(--tinta) 0 6px, transparent 6px 12px); opacity: 0.35;
+}
+.pasos p { margin-top: 0.5rem; color: var(--tinta-suave); }
+@media (max-width: 56rem) {
+  .pasos { grid-template-columns: 1fr 1fr; row-gap: 2.75rem; }
+  .pasos li::after { display: none; }
+}
+@media (max-width: 34rem) { .pasos { grid-template-columns: 1fr; } }
+
+/* El panel: maqueta del tablero real de la cocina */
+.panel-demo { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+.panel-demo ul.puntos { list-style: none; padding: 0; margin: 1.75rem 0 0; display: grid; gap: 1rem; }
+.panel-demo ul.puntos li { padding-left: 1.75rem; position: relative; }
+.panel-demo ul.puntos li::before { content: ""; position: absolute; left: 0; top: 0.55em; width: 0.8rem; height: 0.8rem; border-radius: 3px; background: var(--punto, var(--mostaza)); }
+@media (max-width: 60rem) { .panel-demo { grid-template-columns: 1fr; } }
+
+.tablero { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: #f1f5f9; border-radius: 1.25rem; padding: 1rem; border: 1px solid #d5dde8; box-shadow: 0 30px 60px -30px rgba(31, 42, 68, 0.35); }
+.tablero-barra { display: flex; align-items: center; justify-content: space-between; padding: 0.25rem 0.4rem 0.9rem; font: 800 1.15rem var(--display); }
+.tablero-barra span { font: 400 0.85rem var(--texto); color: var(--tinta-suave); display: inline-flex; align-items: center; gap: 0.4rem; }
+.tablero-barra span::before { content: ""; width: 0.55rem; height: 0.55rem; border-radius: 50%; background: #10b981; }
+.columnas { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+.columna h3 { font-size: 1rem; margin: 0 0 0.6rem; }
+.tarjeta { background: #fff; border-radius: 0.9rem; border-top: 7px solid var(--borde, #fbbf24); padding: 0.75rem 0.85rem 0.85rem; box-shadow: 0 2px 6px rgba(31, 42, 68, 0.1); font-size: 0.85rem; line-height: 1.35; }
+.tarjeta + .tarjeta { margin-top: 0.7rem; }
+.tarjeta header { display: flex; justify-content: space-between; align-items: baseline; }
+.tarjeta .numero { font: 800 1.6rem/1 var(--display); }
+.tarjeta .espera { font-size: 0.72rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 999px; background: var(--chip, #fef3c7); color: var(--chip-texto, #78350f); }
+.tarjeta .cliente { font-weight: 700; font-size: 1rem; margin-top: 0.35rem; }
+.tarjeta .etiqueta { display: inline-block; margin-top: 0.35rem; padding: 0.2rem 0.5rem; border-radius: 0.45rem; font-weight: 700; font-size: 0.75rem; background: #ede9fe; color: #4c1d95; }
+.tarjeta ul { list-style: none; padding: 0; margin: 0.5rem 0 0; }
+.tarjeta li b { display: inline-block; min-width: 1.6rem; }
+.tarjeta .nota { color: #b45309; font-style: italic; padding-left: 1.6rem; }
+.tarjeta .listo { margin-top: 0.6rem; background: #059669; color: #fff; text-align: center; font-weight: 800; border-radius: 0.55rem; padding: 0.45rem; }
+@media (max-width: 30rem) { .columnas { grid-template-columns: 1fr; } }
+
+/* Lo que resuelve: lista de definiciones en dos columnas (no tarjetas) */
+.resuelve { display: grid; grid-template-columns: repeat(2, 1fr); column-gap: clamp(2rem, 6vw, 5rem); row-gap: 2.25rem; margin: 0; }
+.resuelve div { border-top: 2px solid var(--tinta); padding-top: 1rem; }
+.resuelve dt { font: 700 1.3rem/1.25 var(--display); letter-spacing: -0.01em; }
+.resuelve dd { margin: 0.45rem 0 0; color: var(--tinta-suave); max-width: 32em; }
+@media (max-width: 46rem) { .resuelve { grid-template-columns: 1fr; } }
+
+/* Confianza: la única sección oscura */
+.confianza { background: var(--tinta); color: #fff; }
+.confianza .contenedor { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: clamp(2rem, 5vw, 4rem); align-items: end; }
+.confianza h2 { font-size: clamp(2.4rem, 5.6vw, 4.5rem); color: var(--mostaza); max-width: 12ch; }
+.confianza p { color: #d7dded; font-size: 1.2rem; max-width: 30em; }
+.confianza p + p { margin-top: 1rem; }
+@media (max-width: 56rem) { .confianza .contenedor { grid-template-columns: 1fr; } }
+
+/* Para quién */
+.locales { display: flex; flex-wrap: wrap; gap: 0.75rem; list-style: none; margin: 0; padding: 0; }
+.locales li { font: 700 clamp(1.15rem, 2vw, 1.45rem)/1 var(--display); padding: 0.85rem 1.25rem; border-radius: 999px; background: var(--papel); border: 2px solid var(--tinta); }
+.modos { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1.5rem, 4vw, 3rem); margin-top: 3.5rem; }
+.modo { background: var(--papel); border-radius: 1.5rem; padding: 1.75rem; }
+.modo h3 { font-size: 1.6rem; }
+.modo p { margin-top: 0.6rem; color: var(--tinta-suave); }
+@media (max-width: 46rem) { .modos { grid-template-columns: 1fr; } }
+
+/* Preguntas frecuentes */
+.preguntas { max-width: 48rem; }
+.preguntas details { border-bottom: 2px solid var(--azulejo); }
+.preguntas summary {
+  list-style: none; cursor: pointer; padding: 1.35rem 2.75rem 1.35rem 0; position: relative;
+  font: 700 1.25rem/1.3 var(--display); letter-spacing: -0.01em;
+}
+.preguntas summary::-webkit-details-marker { display: none; }
+.preguntas summary::after {
+  content: "+"; position: absolute; right: 0.25rem; top: 50%; transform: translateY(-50%);
+  width: 2rem; height: 2rem; border-radius: 50%; display: grid; place-items: center;
+  background: var(--mostaza); font: 800 1.3rem/1 var(--display); transition: transform 0.2s ease;
+}
+.preguntas details[open] summary::after { content: "–"; }
+.preguntas details p { padding: 0 0 1.5rem; color: var(--tinta-suave); max-width: 40em; }
+
+/* Cierre */
+.cierre { background: var(--mostaza); text-align: left; }
+.cierre .contenedor { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 2rem; }
+.cierre h2 { max-width: 14ch; }
+.cierre p { margin-top: 0.75rem; max-width: 30em; }
+
+/* Pie */
+.pie { background: var(--tinta); color: #cfd6e6; padding: 3.5rem 0 2.5rem; font-size: 0.95rem; }
+.pie .contenedor { display: grid; grid-template-columns: 1.3fr 1fr; gap: 2.5rem; }
+.pie .marca { color: #fff; }
+.pie .marca svg { color: var(--mostaza); }
+.pie address { font-style: normal; margin-top: 1rem; line-height: 1.7; }
+.pie nav ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; justify-items: start; }
+.pie a { color: #fff; text-underline-offset: 0.2em; }
+.pie .derechos { grid-column: 1 / -1; border-top: 1px solid rgba(255, 255, 255, 0.15); padding-top: 1.5rem; color: #9aa5bf; }
+@media (max-width: 40rem) { .pie .contenedor { grid-template-columns: 1fr; } }
+.falta { background: #ffe1dc; color: #8a1c0c; padding: 0.05rem 0.35rem; border-radius: 0.3rem; font-weight: 700; }
+
+/* Botón flotante de WhatsApp */
+.whatsapp-flotante {
+  position: fixed; right: 1.25rem; bottom: 1.25rem; z-index: 30;
+  width: 3.75rem; height: 3.75rem; border-radius: 50%;
+  background: var(--whatsapp); color: #fff; display: grid; place-items: center;
+  box-shadow: 0 10px 24px -8px rgba(18, 140, 75, 0.7);
+  transition: transform 0.15s ease;
+}
+.whatsapp-flotante:hover { transform: scale(1.06); }
+.whatsapp-flotante svg { width: 2rem; height: 2rem; }
+
+/* ---------- Páginas legales ---------- */
+.legal { padding: clamp(3rem, 7vw, 5rem) 0 5rem; }
+.legal .contenedor { max-width: 46rem; }
+.legal h1 { font-size: clamp(2.3rem, 5vw, 3.5rem); }
+.legal .actualizado { margin-top: 0.75rem; color: var(--tinta-suave); }
+.legal .resumen { margin: 2rem 0 1rem; padding: 1.25rem 1.5rem; background: var(--azulejo); border-radius: 1rem; }
+.legal h2 { font-size: 1.6rem; margin: 2.75rem 0 0.75rem; }
+.legal h3 { font-size: 1.15rem; margin: 1.5rem 0 0.5rem; }
+.legal p, .legal li { color: #2c3754; }
+.legal p + p { margin-top: 0.85rem; }
+.legal ul { padding-left: 1.25rem; margin: 0.75rem 0; }
+.legal li + li { margin-top: 0.4rem; }
+.legal table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.98rem; }
+.legal th, .legal td { text-align: left; vertical-align: top; padding: 0.7rem 0.6rem; border-bottom: 1px solid #d5dde8; }
+.legal th { font-family: var(--display); font-weight: 700; }
+.legal .tabla-scroll { overflow-x: auto; }
